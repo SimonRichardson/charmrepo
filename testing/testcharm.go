@@ -32,6 +32,7 @@ type Charm struct {
 	config   *charm.Config
 	actions  *charm.Actions
 	metrics  *charm.Metrics
+	profiles *charm.Profiles
 	revision int
 
 	files filetesting.Entries
@@ -55,6 +56,9 @@ type CharmSpec struct {
 
 	// Metrics holds the contents of metrics.yaml.
 	Metrics string
+
+	// Profiles holds the contents of profiles.yaml.
+	Profiles string
 
 	// Files holds any additional files that should be
 	// added to the charm. If this is nil, a minimal set
@@ -127,6 +131,17 @@ func newCharm(spec CharmSpec) *Charm {
 			Perm: 0644,
 		})
 	}
+	if spec.Profiles != "" {
+		ch.profiles, err = charm.ReadProfiles(strings.NewReader(spec.Profiles))
+		if err != nil {
+			panic(err)
+		}
+		ch.files = append(ch.files, filetesting.File{
+			Path: "profiles.yaml",
+			Data: spec.Profiles,
+			Perm: 0644,
+		})
+	}
 	if spec.Files == nil {
 		ch.files = append(ch.files, filetesting.File{
 			Path: "hooks/install",
@@ -194,6 +209,14 @@ func (ch *Charm) Actions() *charm.Actions {
 		return &charm.Actions{}
 	}
 	return ch.actions
+}
+
+// Profiles implements charm.Charm.Profiles.
+func (ch *Charm) Profiles() *charm.Profiles {
+	if ch.profiles == nil {
+		return &charm.Profiles{}
+	}
+	return ch.profiles
 }
 
 // Revision implements charm.Charm.Revision.
