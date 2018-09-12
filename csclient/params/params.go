@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/juju/utils/debugstatus"
-	"gopkg.in/juju/charm.v6"
+	"gopkg.in/juju/charm.v7-unstable"
 	"gopkg.in/macaroon.v2-unstable"
 )
 

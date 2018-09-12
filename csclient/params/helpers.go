@@ -5,7 +5,7 @@ package params // import "gopkg.in/juju/charmrepo.v3/csclient/params"
 
 import (
 	"gopkg.in/errgo.v1"
-	"gopkg.in/juju/charm.v6/resource"
+	"gopkg.in/juju/charm.v7-unstable/resource"
 )
 
 // Resource2API converts a charm resource into an API Resource struct.

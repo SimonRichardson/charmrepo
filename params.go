@@ -6,8 +6,8 @@ package charmrepo // import "gopkg.in/juju/charmrepo.v3"
 import (
 	"fmt"
 
-	"gopkg.in/juju/charm.v6"
-	"gopkg.in/juju/charm.v6/resource"
+	"gopkg.in/juju/charm.v7-unstable"
+	"gopkg.in/juju/charm.v7-unstable/resource"
 )
 
 // InfoResponse is sent by the charm store in response to charm-info requests.

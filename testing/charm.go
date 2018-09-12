@@ -10,7 +10,7 @@ import (
 	"runtime"
 
 	"github.com/juju/utils/fs"
-	"gopkg.in/juju/charm.v6"
+	"gopkg.in/juju/charm.v7-unstable"
 )
 
 func check(err error) {

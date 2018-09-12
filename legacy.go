@@ -17,7 +17,7 @@ import (
 	"strings"
 
 	"github.com/juju/utils"
-	"gopkg.in/juju/charm.v6"
+	"gopkg.in/juju/charm.v7-unstable"
 )
 
 // LegacyCharmStore is a repository Interface that provides access to the

@@ -16,7 +16,7 @@ import (
 
 	"github.com/juju/utils"
 	"gopkg.in/errgo.v1"
-	"gopkg.in/juju/charm.v6"
+	"gopkg.in/juju/charm.v7-unstable"
 	"gopkg.in/macaroon-bakery.v2-unstable/httpbakery"
 
 	"gopkg.in/juju/charmrepo.v3/csclient"

@@ -30,7 +30,7 @@ import (
 
 	"gopkg.in/errgo.v1"
 	httprequest "gopkg.in/httprequest.v1"
-	"gopkg.in/juju/charm.v6"
+	"gopkg.in/juju/charm.v7-unstable"
 	"gopkg.in/macaroon-bakery.v2-unstable/httpbakery"
 	"gopkg.in/macaroon.v2-unstable"
 

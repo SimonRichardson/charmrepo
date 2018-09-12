@@ -16,8 +16,8 @@ import (
 	"github.com/juju/testing/filetesting"
 	gc "gopkg.in/check.v1"
 	"gopkg.in/errgo.v1"
-	"gopkg.in/juju/charm.v6"
-	"gopkg.in/juju/charm.v6/resource"
+	"gopkg.in/juju/charm.v7-unstable"
+	"gopkg.in/juju/charm.v7-unstable/resource"
 	"gopkg.in/yaml.v2"
 )
 
@@ -28,11 +28,12 @@ import (
 //
 // All methods on Charm may be called concurrently.
 type Charm struct {
-	meta     *charm.Meta
-	config   *charm.Config
-	actions  *charm.Actions
-	metrics  *charm.Metrics
-	revision int
+	meta       *charm.Meta
+	config     *charm.Config
+	actions    *charm.Actions
+	metrics    *charm.Metrics
+	lxdProfile *charm.LXDProfile
+	revision   int
 
 	files filetesting.Entries
 
@@ -55,6 +56,9 @@ type CharmSpec struct {
 
 	// Metrics holds the contents of metrics.yaml.
 	Metrics string
+
+	// LXDProfile holds the contents of lxd-profile.yaml.
+	LXDProfile string
 
 	// Files holds any additional files that should be
 	// added to the charm. If this is nil, a minimal set
@@ -124,6 +128,17 @@ func newCharm(spec CharmSpec) *Charm {
 		ch.files = append(ch.files, filetesting.File{
 			Path: "metrics.yaml",
 			Data: spec.Metrics,
+			Perm: 0644,
+		})
+	}
+	if spec.LXDProfile != "" {
+		ch.lxdProfile, err = charm.ReadLXDProfile(strings.NewReader(spec.LXDProfile))
+		if err != nil {
+			panic(err)
+		}
+		ch.files = append(ch.files, filetesting.File{
+			Path: "lxd-profile.yaml",
+			Data: spec.LXDProfile,
 			Perm: 0644,
 		})
 	}
@@ -199,6 +214,14 @@ func (ch *Charm) Actions() *charm.Actions {
 // Revision implements charm.Charm.Revision.
 func (ch *Charm) Revision() int {
 	return ch.revision
+}
+
+// LXDProfile implements charm.Charm.LXDProfile.
+func (ch *Charm) LXDProfile() *charm.LXDProfile {
+	if ch.lxdProfile == nil {
+		return &charm.LXDProfile{}
+	}
+	return ch.lxdProfile
 }
 
 // Archive returns a charm archive holding the charm.
